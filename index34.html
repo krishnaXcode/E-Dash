@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VELOX — 3D Interactive Background</title>
+
+<style>
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #05070d;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(40, 100, 255, 0.12),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #05070d 0%,
+            #08101d 50%,
+            #03050a 100%
+        );
+}
+
+
+/* =========================================================
+   GPU-FRIENDLY 3D BACKGROUND
+========================================================= */
+
+.background-3d {
+    position: absolute;
+    inset: 0;
+    z-index: -5;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+/* Large atmospheric glow */
+
+.background-3d::before {
+    content: "";
+    position: absolute;
+    width: 70vw;
+    height: 70vw;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate3d(-50%, -50%, 0);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 140, 255, 0.10) 0%,
+            rgba(0, 80, 255, 0.04) 35%,
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    will-change: transform;
+}
+
+
+/* =========================================================
+   CURSOR LIGHT
+========================================================= */
+
+.cursor-light {
+    position: fixed;
+
+    width: 450px;
+    height: 450px;
+
+    left: 0;
+    top: 0;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 183, 255, 0.15) 0%,
+            rgba(0, 110, 255, 0.08) 25%,
+            rgba(0, 80, 255, 0.03) 45%,
+            transparent 70%
+        );
+
+    transform:
+        translate3d(
+            calc(var(--mouse-x, 50vw) - 225px),
+            calc(var(--mouse-y, 50vh) - 225px),
+            0
+        );
+
+    will-change: transform;
+
+    filter: blur(8px);
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+/* Smaller cursor glow */
+
+.cursor-light::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100px;
+    height: 100px;
+
+    transform:
+        translate3d(-50%, -50%, 0);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(80, 210, 255, 0.20),
+            transparent 70%
+        );
+
+    filter: blur(5px);
+}
+
+
+/* =========================================================
+   PARTICLE CANVAS
+========================================================= */
+
+#particleCanvas {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    pointer-events: none;
+
+    z-index: -2;
+}
+
+
+/* =========================================================
+   DECORATIVE 3D ORBS
+========================================================= */
+
+.orb {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    will-change: transform;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    filter: blur(1px);
+
+    opacity: 0.35;
+}
+
+.orb-1 {
+    width: 250px;
+    height: 250px;
+
+    top: 10%;
+    left: 5%;
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(0, 210, 255, 0.4),
+            rgba(0, 80, 255, 0.05) 55%,
+            transparent 70%
+        );
+}
+
+.orb-2 {
+    width: 350px;
+    height: 350px;
+
+    right: -80px;
+    bottom: 5%;
+
+    background:
+        radial-gradient(
+            circle at 40% 40%,
+            rgba(100, 70, 255, 0.3),
+            rgba(20, 30, 150, 0.04) 55%,
+            transparent 70%
+        );
+}
+
+.orb-3 {
+    width: 160px;
+    height: 160px;
+
+    top: 45%;
+    right: 20%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 255, 200, 0.18),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content {
+    position: relative;
+
+    z-index: 5;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+.content {
+    max-width: 900px;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    will-change: transform;
+}
+
+.badge {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 50px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    backdrop-filter: blur(10px);
+
+    color: #7ddfff;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(50px, 9vw, 120px);
+
+    line-height: 0.95;
+
+    letter-spacing: -5px;
+
+    margin-bottom: 25px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #ffffff,
+            #80eaff,
+            #6e7cff,
+            #ffffff
+        );
+
+    background-size: 300% 300%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+
+    animation:
+        gradientMove 7s ease infinite;
+}
+
+@keyframes gradientMove {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
+}
+
+.description {
+    max-width: 600px;
+
+    margin: auto;
+
+    color: rgba(255,255,255,0.65);
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.hero-button {
+
+    display: inline-flex;
+
+    margin-top: 35px;
+
+    padding: 15px 28px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #009dff,
+            #5d55ff
+        );
+
+    box-shadow:
+        0 10px 40px rgba(0,140,255,0.25);
+
+    transform:
+        translate3d(0,0,0);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    will-change: transform;
+}
+
+.hero-button:hover {
+
+    transform:
+        translate3d(0,-5px,0);
+
+    box-shadow:
+        0 20px 60px rgba(0,140,255,0.4);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+    }
+
+    .cursor-light {
+        display: none;
+    }
+
+    #particleCanvas {
+        display: none;
+    }
+
+    .orb {
+        transform: none !important;
+    }
+
+    h1 {
+        animation: none;
+        background-position: 50% 50%;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .cursor-light {
+        display: none;
+    }
+
+    .orb-1 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .orb-2 {
+        width: 200px;
+        height: 200px;
+    }
+
+    .orb-3 {
+        width: 100px;
+        height: 100px;
+    }
+
+    h1 {
+        letter-spacing: -2px;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<section class="hero">
+
+    <!-- =====================================================
+         3D BACKGROUND
+    ====================================================== -->
+
+    <div class="background-3d">
+
+        <!-- Cursor-following dynamic light -->
+        <div class="cursor-light"></div>
+
+        <!-- Canvas particle system -->
+        <canvas id="particleCanvas"></canvas>
+
+        <!-- Decorative 3D glow objects -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HERO CONTENT
+    ====================================================== -->
+
+    <div class="hero-content">
+
+        <div class="content">
+
+            <span class="badge">
+                PREMIUM PERFORMANCE
+            </span>
+
+            <h1>
+                RIDE<br>
+                BEYOND
+            </h1>
+
+            <p class="description">
+                Experience next-generation bicycles engineered
+                for speed, control and unforgettable adventures.
+            </p>
+
+            <p class="contact-details">
+                Kaptanganj, Kushinagar, 274301
+                <br>
+                +91 9140078209
+                <br>
+                kyadav9140002@gmail.com
+            </p>
+
+            <a href="index.html#featured" class="hero-button">
+                Explore Bikes
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   3D PARTICLE SYSTEM
+========================================================= */
+
+const canvas =
+    document.getElementById("particleCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+let particles = [];
+
+let width = 0;
+let height = 0;
+
+
+/* =========================================================
+   MOUSE
+========================================================= */
+
+const mouse = {
+
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+
+    targetX: window.innerWidth / 2,
+    targetY: window.innerHeight / 2
+
+};
+
+
+/* =========================================================
+   DEVICE PIXEL RATIO
+========================================================= */
+
+function resizeCanvas() {
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    const dpr =
+        Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    createParticles();
+}
+
+
+/* =========================================================
+   PARTICLE COUNT
+========================================================= */
+
+function getParticleCount() {
+
+    if (window.innerWidth < 600) {
+        return 35;
+    }
+
+    if (window.innerWidth < 1000) {
+        return 60;
+    }
+
+    return 100;
+}
+
+
+/* =========================================================
+   CREATE PARTICLES
+========================================================= */
+
+function createParticles() {
+
+    particles = [];
+
+    const count =
+        getParticleCount();
+
+    for (let i = 0; i < count; i++) {
+
+        particles.push({
+
+            x: Math.random() * width,
+
+            y: Math.random() * height,
+
+            size:
+                Math.random() * 2.5 + 0.5,
+
+            speedX:
+                (Math.random() - 0.5) * 0.25,
+
+            speedY:
+                (Math.random() - 0.5) * 0.25,
+
+            depth:
+                Math.random(),
+
+            opacity:
+                Math.random() * 0.5 + 0.2,
+
+            baseX: 0,
+            baseY: 0
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   MOUSE MOVEMENT
+========================================================= */
+
+window.addEventListener(
+    "mousemove",
+    function(event) {
+
+        mouse.targetX = event.clientX;
+        mouse.targetY = event.clientY;
+
+    },
+    { passive: true }
+);
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+window.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (!event.touches.length) return;
+
+        mouse.targetX =
+            event.touches[0].clientX;
+
+        mouse.targetY =
+            event.touches[0].clientY;
+
+    },
+    { passive: true }
+);
+
+
+/* =========================================================
+   SMOOTH MOUSE
+========================================================= */
+
+function updateMouse() {
+
+    mouse.x +=
+        (mouse.targetX - mouse.x) * 0.08;
+
+    mouse.y +=
+        (mouse.targetY - mouse.y) * 0.08;
+
+}
+
+
+/* =========================================================
+   DRAW PARTICLES
+========================================================= */
+
+function drawParticles() {
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    for (const particle of particles) {
+
+        /*
+         * Distance from cursor
+         */
+
+        const dx =
+            mouse.x - particle.x;
+
+        const dy =
+            mouse.y - particle.y;
+
+        const distance =
+            Math.sqrt(dx * dx + dy * dy);
+
+        /*
+         * Mouse interaction radius
+         */
+
+        const interactionRadius = 180;
+
+        if (
+            distance <
+            interactionRadius
+        ) {
+
+            const force =
+                (interactionRadius - distance)
+                / interactionRadius;
+
+            /*
+             * Push particle away
+             * from cursor.
+             */
+
+            particle.x -=
+                (dx / distance || 0)
+                * force
+                * 1.8
+                * particle.depth;
+
+            particle.y -=
+                (dy / distance || 0)
+                * force
+                * 1.8
+                * particle.depth;
+
+        }
+
+
+        /*
+         * Normal floating motion
+         */
+
+        particle.x +=
+            particle.speedX;
+
+        particle.y +=
+            particle.speedY;
+
+
+        /*
+         * Screen wrapping
+         */
+
+        if (particle.x < -20)
+            particle.x = width + 20;
+
+        if (particle.x > width + 20)
+            particle.x = -20;
+
+        if (particle.y < -20)
+            particle.y = height + 20;
+
+        if (particle.y > height + 20)
+            particle.y = -20;
+
+
+        /*
+         * Depth creates subtle
+         * 3D size difference.
+         */
+
+        const size =
+            particle.size *
+            (0.6 + particle.depth * 1.4);
+
+
+        /*
+         * Draw particle
+         */
+
+        ctx.beginPath();
+
+        ctx.arc(
+            particle.x,
+            particle.y,
+            size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(100, 210, 255, ${particle.opacity})`;
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   PARTICLE CONNECTIONS
+========================================================= */
+
+function drawConnections() {
+
+    const maxDistance = 120;
+
+    for (
+        let i = 0;
+        i < particles.length;
+        i++
+    ) {
+
+        for (
+            let j = i + 1;
+            j < particles.length;
+            j++
+        ) {
+
+            const a =
+                particles[i];
+
+            const b =
+                particles[j];
+
+            const dx =
+                a.x - b.x;
+
+            const dy =
+                a.y - b.y;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+            if (
+                distance <
+                maxDistance
+            ) {
+
+                const opacity =
+                    (1 - distance / maxDistance)
+                    * 0.12;
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    a.x,
+                    a.y
+                );
+
+                ctx.lineTo(
+                    b.x,
+                    b.y
+                );
+
+                ctx.strokeStyle =
+                    `rgba(80, 190, 255, ${opacity})`;
+
+                ctx.lineWidth = 0.6;
+
+                ctx.stroke();
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   CURSOR LIGHT
+========================================================= */
+
+const hero =
+    document.querySelector(".hero");
+
+const cursorLight =
+    document.querySelector(".cursor-light");
+
+
+function updateCursorLight() {
+
+    /*
+     * CSS variables are used instead
+     * of repeatedly changing layout properties.
+     *
+     * This keeps the movement GPU-friendly.
+     */
+
+    cursorLight.style.setProperty(
+        "--mouse-x",
+        mouse.x + "px"
+    );
+
+    cursorLight.style.setProperty(
+        "--mouse-y",
+        mouse.y + "px"
+    );
+
+}
+
+
+/* =========================================================
+   3D ORB PARALLAX
+========================================================= */
+
+const orbs =
+    document.querySelectorAll(".orb");
+
+
+function updateOrbParallax() {
+
+    const centerX =
+        width / 2;
+
+    const centerY =
+        height / 2;
+
+    const moveX =
+        (mouse.x - centerX) / centerX;
+
+    const moveY =
+        (mouse.y - centerY) / centerY;
+
+
+    orbs.forEach(
+        (orb, index) => {
+
+            const depth =
+                (index + 1) * 8;
+
+            const x =
+                moveX * depth;
+
+            const y =
+                moveY * depth;
+
+            /*
+             * translate3d() is used because
+             * transforms can be GPU accelerated.
+             */
+
+            orb.style.transform =
+                `translate3d(${x}px, ${y}px, 0)`;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MAIN ANIMATION LOOP
+========================================================= */
+
+let animationFrame;
+
+
+function animate() {
+
+    updateMouse();
+
+    updateCursorLight();
+
+    updateOrbParallax();
+
+    drawParticles();
+
+    drawConnections();
+
+    animationFrame =
+        requestAnimationFrame(animate);
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION CHECK
+========================================================= */
+
+const reducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+
+function handleMotionPreference() {
+
+    if (reducedMotion.matches) {
+
+        cancelAnimationFrame(
+            animationFrame
+        );
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+        cursorLight.style.display =
+            "none";
+
+        orbs.forEach(
+            orb => {
+                orb.style.transform =
+                    "none";
+            }
+        );
+
+        return;
+
+    }
+
+
+    cursorLight.style.display =
+        "";
+
+    animate();
+
+}
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+/* =========================================================
+   ACCESSIBILITY CHANGE
+========================================================= */
+
+if (
+    reducedMotion.addEventListener
+) {
+
+    reducedMotion.addEventListener(
+        "change",
+        handleMotionPreference
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+resizeCanvas();
+
+handleMotionPreference();
+
+</script>
+
+</body>
+</html>
