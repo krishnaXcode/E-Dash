@@ -19,6 +19,15 @@
     --shadow: 0 15px 40px rgba(0, 0, 0, .08);
 }
 
+body.dark-mode {
+    --light: #101216;
+    --white: #f5f7fb;
+    --text: #f1f3f5;
+    --muted: #adb4bf;
+    --border: #303640;
+    --shadow: 0 15px 40px rgba(0, 0, 0, .3);
+}
+
 
 /* ==============================
    RESET
@@ -229,6 +238,24 @@ a {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.theme-toggle {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    color: white;
+    font-size: 18px;
+    transition: .25s;
+}
+
+.theme-toggle:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
 }
 
 .icon-btn,
@@ -583,6 +610,79 @@ a {
     transition: .25s;
 }
 
+.view-all-button {
+    cursor: pointer;
+    font: inherit;
+}
+
+body.dark-mode .feature-strip,
+body.dark-mode .bike-card,
+body.dark-mode .service-card,
+body.dark-mode .testimonial,
+body.dark-mode .contact-form,
+body.dark-mode .search-box,
+body.dark-mode .catalog-toolbar select,
+body.dark-mode .newsletter {
+    background: #191d24;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode .about-section,
+body.dark-mode .contact-section,
+body.dark-mode .section,
+body.dark-mode .catalog-section {
+    background: #101216;
+}
+
+body.dark-mode .bike-description,
+body.dark-mode .feature-item p,
+body.dark-mode .service-card p,
+body.dark-mode .testimonial p,
+body.dark-mode .contact-info p,
+body.dark-mode .newsletter p {
+    color: var(--muted);
+}
+
+body.dark-mode .search-box input,
+body.dark-mode .catalog-toolbar select,
+body.dark-mode .contact-form input,
+body.dark-mode .contact-form textarea,
+body.dark-mode .newsletter-form input {
+    background: #11141a;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode .cart-drawer,
+body.dark-mode .modal-box {
+    background: #191d24;
+    color: var(--text);
+}
+
+body.dark-mode .close-button,
+body.dark-mode .modal-close {
+    color: var(--text);
+}
+
+body.dark-mode .wishlist,
+body.dark-mode .qty-btn {
+    background: #11141a;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-mode .bike-specs span {
+    background: #2a303a;
+    color: #f1f3f5;
+}
+
+body.dark-mode .cart-header,
+body.dark-mode .cart-footer,
+body.dark-mode .cart-item {
+    border-color: var(--border);
+}
+
 .wishlist:hover,
 .wishlist.active {
     color: var(--primary);
@@ -804,6 +904,10 @@ a {
 .testimonial-section {
     padding: 100px 0;
     background: #eeeeec;
+}
+
+.testimonial-section .center-heading h2 {
+    color: var(--primary);
 }
 
 .testimonial-grid {

@@ -1294,10 +1294,22 @@ function renderFeaturedBikes() {
     const featured =
         bikes.filter(bike => bike.featured);
 
+    const viewAllButton =
+        $("#viewAllBikes");
+
+    const showAll =
+        viewAllButton?.dataset.expanded === "true";
+
     container.innerHTML =
         featured
+            .slice(0, showAll ? featured.length : 12)
             .map(createBikeCard)
             .join("");
+
+    if (viewAllButton) {
+        viewAllButton.textContent =
+            showAll ? "Show Featured Only ↑" : "View All Bikes →";
+    }
 
     attachBikeEvents();
 
@@ -2260,6 +2272,67 @@ if ($("#checkoutModal")) {
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+
+        const themeToggle =
+            $("#themeToggle");
+
+        const savedTheme =
+            localStorage.getItem("velocityTheme");
+
+        if (savedTheme === "dark") {
+            document.body.classList.add("dark-mode");
+        }
+
+        function updateThemeButton() {
+
+            if (!themeToggle) return;
+
+            const darkMode =
+                document.body.classList.contains("dark-mode");
+
+            themeToggle.innerHTML =
+                `<span aria-hidden="true">${darkMode ? "☀" : "☾"}</span>`;
+
+            themeToggle.setAttribute(
+                "aria-label",
+                darkMode ? "Switch to light mode" : "Switch to dark mode"
+            );
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener("click", () => {
+                const darkMode =
+                    document.body.classList.toggle("dark-mode");
+
+                localStorage.setItem(
+                    "velocityTheme",
+                    darkMode ? "dark" : "light"
+                );
+
+                updateThemeButton();
+            });
+        }
+
+        updateThemeButton();
+
+        const viewAllButton =
+            $("#viewAllBikes");
+
+        if (viewAllButton) {
+            viewAllButton.addEventListener("click", () => {
+                viewAllButton.dataset.expanded =
+                    viewAllButton.dataset.expanded !== "true";
+
+                renderFeaturedBikes();
+
+                if (viewAllButton.dataset.expanded === "true") {
+                    viewAllButton.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                }
+            });
+        }
 
         updateCartUI();
 
