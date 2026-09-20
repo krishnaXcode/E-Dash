@@ -223,6 +223,74 @@
 </section>
 
 
+<!-- ================= CATALOG ================= -->
+
+<section class="catalog-section" id="catalog">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">BROWSE ALL</span>
+                <h2>
+                    Shop <span>Every Ride</span>
+                </h2>
+            </div>
+
+            <button class="text-link" id="resetFilters" type="button">
+                Reset Filters
+            </button>
+
+        </div>
+
+        <div class="catalog-toolbar">
+
+            <label class="search-box" aria-label="Search bikes">
+                <span>⌕</span>
+                <input
+                    type="search"
+                    id="bikeSearch"
+                    placeholder="Search bikes or category"
+                >
+            </label>
+
+            <select id="categoryFilter" aria-label="Filter by category">
+                <option value="all">All Categories</option>
+                <option value="sport">Sport</option>
+                <option value="cruiser">Cruiser</option>
+                <option value="adventure">Adventure</option>
+                <option value="naked">Naked</option>
+                <option value="bicycle">Electric Bicycle</option>
+                <option value="car">Car</option>
+            </select>
+
+            <select id="priceSort" aria-label="Sort by price">
+                <option value="default">Default</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+                <option value="name">Name</option>
+            </select>
+
+        </div>
+
+        <div class="catalog-count">
+            <span id="bikeCount">0</span> bikes available
+        </div>
+
+        <div class="bike-grid" id="allBikes"></div>
+
+        <div class="no-results" id="noResults">
+            <div>🔎</div>
+            <h3>No rides match your search.</h3>
+            <p>Try another model name or category.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
 <!-- ================= ABOUT ================= -->
 
 <section class="about-section" id="about">

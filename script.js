@@ -1706,7 +1706,10 @@ function openCart() {
     if (!cartDrawer) return;
 
     cartDrawer.classList.add("open");
-    cartOverlay.classList.add("open");
+
+    if (cartOverlay) {
+        cartOverlay.classList.add("open");
+    }
 
     document.body.classList.add("no-scroll");
 
@@ -1718,7 +1721,10 @@ function closeCartDrawer() {
     if (!cartDrawer) return;
 
     cartDrawer.classList.remove("open");
-    cartOverlay.classList.remove("open");
+
+    if (cartOverlay) {
+        cartOverlay.classList.remove("open");
+    }
 
     document.body.classList.remove("no-scroll");
 
@@ -1895,7 +1901,9 @@ if (checkoutButton) {
 
             }
 
-            checkoutModal.classList.add("open");
+            if (checkoutModal) {
+                checkoutModal.classList.add("open");
+            }
 
         }
     );
@@ -2033,6 +2041,29 @@ const categoryFilter =
 const priceSort =
     $("#priceSort");
 
+const resetFiltersButton =
+    $("#resetFilters");
+
+
+function resetBikeFilters() {
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    if (categoryFilter) {
+        categoryFilter.value = "all";
+    }
+
+    if (priceSort) {
+        priceSort.value = "default";
+    }
+
+    window.currentBikeList = [...bikes];
+    renderAllBikes([...bikes]);
+
+}
+
 
 function filterBikes() {
 
@@ -2149,6 +2180,15 @@ if (priceSort) {
     priceSort.addEventListener(
         "change",
         filterBikes
+    );
+
+}
+
+if (resetFiltersButton) {
+
+    resetFiltersButton.addEventListener(
+        "click",
+        resetBikeFilters
     );
 
 }
@@ -2326,9 +2366,9 @@ document.addEventListener(
                 renderFeaturedBikes();
 
                 if (viewAllButton.dataset.expanded === "true") {
-                    viewAllButton.scrollIntoView({
+                    document.getElementById("catalog")?.scrollIntoView({
                         behavior: "smooth",
-                        block: "center"
+                        block: "start"
                     });
                 }
             });
@@ -2341,7 +2381,12 @@ document.addEventListener(
         }
 
         if ($("#allBikes")) {
-            renderAllBikes();
+            window.currentBikeList = [...bikes];
+            renderAllBikes(bikes);
+        }
+
+        if (searchInput || categoryFilter || priceSort) {
+            filterBikes();
         }
 
     }
