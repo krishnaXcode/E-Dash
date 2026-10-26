@@ -1282,43 +1282,11 @@ function createBikeCard(bike) {
 
 
 /* ==========================================
-   RENDER FEATURED BIKES
-========================================== */
-
-function renderFeaturedBikes() {
-
-    const container = $("#featuredBikes");
-
-    if (!container) return;
-
-    const featured =
-        bikes.filter(bike => bike.featured);
-
-    const viewAllButton =
-        $("#viewAllBikes");
-
-    const showAll =
-        viewAllButton?.dataset.expanded === "true";
-
-    container.innerHTML =
-        featured
-            .slice(0, showAll ? featured.length : 12)
-            .map(createBikeCard)
-            .join("");
-
-    if (viewAllButton) {
-        viewAllButton.textContent =
-            showAll ? "Show Featured Only ↑" : "View All Bikes →";
-    }
-
-    attachBikeEvents();
-
-}
-
-
-/* ==========================================
    RENDER ALL BIKES
 ========================================== */
+
+const bikesPerPage = 12;
+let visibleBikeCount = bikesPerPage;
 
 function renderAllBikes(list = bikes) {
 
@@ -1327,10 +1295,21 @@ function renderAllBikes(list = bikes) {
     if (!container) return;
 
     const count = $("#bikeCount");
+    const total = $("#bikeTotal");
+    const showMoreButton = $("#showMoreBikes");
     const noResults = $("#noResults");
+    const visibleBikes = list.slice(0, visibleBikeCount);
 
     if (count) {
-        count.textContent = list.length;
+        count.textContent = visibleBikes.length;
+    }
+
+    if (total) {
+        total.textContent = list.length;
+    }
+
+    if (showMoreButton) {
+        showMoreButton.hidden = visibleBikes.length >= list.length;
     }
 
     if (list.length === 0) {
@@ -1350,10 +1329,20 @@ function renderAllBikes(list = bikes) {
     }
 
     container.innerHTML =
-        list.map(createBikeCard).join("");
+        visibleBikes.map(createBikeCard).join("");
 
     attachBikeEvents();
 
+}
+
+const showMoreBikesButton =
+    $("#showMoreBikes");
+
+if (showMoreBikesButton) {
+    showMoreBikesButton.addEventListener("click", () => {
+        visibleBikeCount += bikesPerPage;
+        renderAllBikes(window.currentBikeList || bikes);
+    });
 }
 
 
@@ -1433,7 +1422,6 @@ function toggleWishlist(id) {
         JSON.stringify(wishlist)
     );
 
-    renderFeaturedBikes();
     renderAllBikes(
         window.currentBikeList || bikes
     );
@@ -2044,6 +2032,29 @@ const priceSort =
 const resetFiltersButton =
     $("#resetFilters");
 
+function interleaveVehicleTypes(list) {
+
+    const groups = [
+        list.filter(vehicle =>
+            vehicle.category !== "bicycle" && vehicle.category !== "car"
+        ),
+        list.filter(vehicle => vehicle.category === "car"),
+        list.filter(vehicle => vehicle.category === "bicycle")
+    ];
+    const mixed = [];
+
+    for (let index = 0; groups.some(group => index < group.length); index++) {
+        groups.forEach(group => {
+            if (group[index]) {
+                mixed.push(group[index]);
+            }
+        });
+    }
+
+    return mixed;
+
+}
+
 
 function resetBikeFilters() {
 
@@ -2059,8 +2070,7 @@ function resetBikeFilters() {
         priceSort.value = "default";
     }
 
-    window.currentBikeList = [...bikes];
-    renderAllBikes([...bikes]);
+    filterBikes();
 
 }
 
@@ -2101,14 +2111,14 @@ function filterBikes() {
     }
 
 
-    if (category !== "all") {
-
-        result =
-            result.filter(
-                bike =>
-                    bike.category === category
-            );
-
+    if (category === "bike") {
+        result = result.filter(
+            bike => bike.category !== "bicycle" && bike.category !== "car"
+        );
+    } else if (category !== "all") {
+        result = result.filter(
+            bike => bike.category === category
+        );
     }
 
 
@@ -2147,8 +2157,13 @@ function filterBikes() {
 
     }
 
+    if (sort === "default" && category === "all") {
+        result = interleaveVehicleTypes(result);
+    }
+
 
     window.currentBikeList = result;
+    visibleBikeCount = bikesPerPage;
 
     renderAllBikes(result);
 
@@ -2355,30 +2370,7 @@ document.addEventListener(
 
         updateThemeButton();
 
-        const viewAllButton =
-            $("#viewAllBikes");
-
-        if (viewAllButton) {
-            viewAllButton.addEventListener("click", () => {
-                viewAllButton.dataset.expanded =
-                    viewAllButton.dataset.expanded !== "true";
-
-                renderFeaturedBikes();
-
-                if (viewAllButton.dataset.expanded === "true") {
-                    document.getElementById("catalog")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                }
-            });
-        }
-
         updateCartUI();
-
-        if ($("#featuredBikes")) {
-            renderFeaturedBikes();
-        }
 
         if ($("#allBikes")) {
             window.currentBikeList = [...bikes];

@@ -39,7 +39,7 @@
         <nav class="nav" id="nav">
 
             <a href="index.html" class="nav-link active">Home</a>
-            <a href="index.html#featured" class="nav-link">Bikes</a>
+            <a href="index.html#catalog" class="nav-link">Shop</a>
             <a href="#services" class="nav-link">Services</a>
             <a href="#about" class="nav-link">About</a>
             <a href="#contact" class="nav-link">Contact</a>
@@ -110,7 +110,7 @@
 
             <div class="hero-buttons">
 
-                <a href="index.html#featured" class="btn btn-primary">
+                <a href="index.html#catalog" class="btn btn-primary">
                     Explore Bikes →
                 </a>
 
@@ -189,41 +189,7 @@
 </section>
 
 
-<!-- ================= FEATURED BIKES ================= -->
-
-<section class="section" id="featured">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <div>
-                <span class="eyebrow">OUR COLLECTION</span>
-
-                <h2>
-                    Featured <span>Bikes</span>
-                </h2>
-            </div>
-
-            <button class="text-link view-all-button" id="viewAllBikes" type="button">
-                View All Bikes →
-            </button>
-
-        </div>
-
-
-        <div class="bike-grid" id="featuredBikes">
-
-            <!-- JS loads featured bikes -->
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= CATALOG ================= -->
+<!-- ================= VEHICLE COLLECTION ================= -->
 
 <section class="catalog-section" id="catalog">
 
@@ -232,9 +198,9 @@
         <div class="section-heading">
 
             <div>
-                <span class="eyebrow">BROWSE ALL</span>
+                <span class="eyebrow">OUR COLLECTION</span>
                 <h2>
-                    Shop <span>Every Ride</span>
+                    Explore <span>Every Ride</span>
                 </h2>
             </div>
 
@@ -246,23 +212,20 @@
 
         <div class="catalog-toolbar">
 
-            <label class="search-box" aria-label="Search bikes">
+            <label class="search-box" aria-label="Search vehicles">
                 <span>⌕</span>
                 <input
                     type="search"
                     id="bikeSearch"
-                    placeholder="Search bikes or category"
+                    placeholder="Search bikes, cars or bicycles"
                 >
             </label>
 
-            <select id="categoryFilter" aria-label="Filter by category">
-                <option value="all">All Categories</option>
-                <option value="sport">Sport</option>
-                <option value="cruiser">Cruiser</option>
-                <option value="adventure">Adventure</option>
-                <option value="naked">Naked</option>
-                <option value="bicycle">Electric Bicycle</option>
-                <option value="car">Car</option>
+            <select id="categoryFilter" aria-label="Filter by vehicle type">
+                <option value="all">All Types</option>
+                <option value="bike">Bikes</option>
+                <option value="car">Cars</option>
+                <option value="bicycle">Bicycles</option>
             </select>
 
             <select id="priceSort" aria-label="Sort by price">
@@ -275,10 +238,19 @@
         </div>
 
         <div class="catalog-count">
-            <span id="bikeCount">0</span> bikes available
+            Showing <span id="bikeCount">0</span> of
+            <span id="bikeTotal">0</span> vehicles
         </div>
 
         <div class="bike-grid" id="allBikes"></div>
+
+        <button
+            class="btn btn-primary catalog-more"
+            id="showMoreBikes"
+            type="button"
+        >
+            Show More
+        </button>
 
         <div class="no-results" id="noResults">
             <div>🔎</div>
@@ -444,8 +416,17 @@
                     I wanted."
                 </p>
 
-                <strong>Rahul Sharma</strong>
-                <span>Velocity Rider</span>
+                <div class="rider-profile">
+                    <img
+                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&h=160&q=80"
+                        alt="Rahul Sharma"
+                        loading="lazy"
+                    >
+                    <div>
+                        <strong>Rahul Sharma</strong>
+                        <span>Velocity Rider</span>
+                    </div>
+                </div>
 
             </article>
 
@@ -460,8 +441,17 @@
                     the service."
                 </p>
 
-                <strong>Arjun Mehta</strong>
-                <span>Velocity Rider</span>
+                <div class="rider-profile">
+                    <img
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&h=160&q=80"
+                        alt="Arjun Mehta"
+                        loading="lazy"
+                    >
+                    <div>
+                        <strong>Arjun Mehta</strong>
+                        <span>Velocity Rider</span>
+                    </div>
+                </div>
 
             </article>
 
@@ -476,8 +466,17 @@
                     for motorcycle enthusiasts."
                 </p>
 
-                <strong>Vikram Singh</strong>
-                <span>Velocity Rider</span>
+                <div class="rider-profile">
+                    <img
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&h=160&q=80"
+                        alt="Vikram Singh"
+                        loading="lazy"
+                    >
+                    <div>
+                        <strong>Vikram Singh</strong>
+                        <span>Velocity Rider</span>
+                    </div>
+                </div>
 
             </article>
 
@@ -675,7 +674,7 @@
             <h4>Quick Links</h4>
 
             <a href="index.html">Home</a>
-            <a href="index.html#featured">Our Bikes</a>
+            <a href="index.html#catalog">Our Collection</a>
             <a href="#services">Services</a>
             <a href="#about">About Us</a>
 

@@ -4,15 +4,30 @@
 ========================================== */
 
 :root {
-    --primary: #f0442e;
-    --primary-dark: #c93220;
-    --dark: #0c0c0d;
-    --dark-2: #151516;
-    --light: #f6f6f5;
-    --white: #ffffff;
-    --text: #181818;
-    --muted: #707070;
-    --border: #e7e7e7;
+    --bg-primary: #E9F0EC;
+    --bg-secondary: #E9F0EC;
+    --bg-card: #DCE7E0;
+    --heading: #19352F;
+    --text-primary: #19352F;
+    --text-secondary: #566D64;
+    --accent-gold: #197A5B;
+    --accent-hover: #126348;
+    --border-color: #C5D5CC;
+    --titanium: #A8B5B8;
+    --iridescent-mint: #B4F3D8;
+    --carbon-black: #0B0D0F;
+    --inverse-text: #DDE2E6;
+    --inverse-muted: #9CA6AF;
+    --button-text: #0B0D0F;
+    --primary: var(--accent-gold);
+    --primary-dark: var(--accent-hover);
+    --dark: var(--carbon-black);
+    --dark-2: #19352F;
+    --light: var(--bg-primary);
+    --white: var(--heading);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
+    --border: var(--border-color);
 
     --container: 1200px;
     --radius: 12px;
@@ -20,11 +35,25 @@
 }
 
 body.dark-mode {
-    --light: #101216;
-    --white: #f5f7fb;
-    --text: #f1f3f5;
-    --muted: #adb4bf;
-    --border: #303640;
+    --bg-primary: #0B0D0F;
+    --bg-secondary: #0B0D0F;
+    --bg-card: #191D21;
+    --heading: #DDE2E6;
+    --text-primary: #DDE2E6;
+    --text-secondary: #9CA6AF;
+    --accent-gold: #697B8C;
+    --accent-hover: #91A5B8;
+    --border-color: #30373E;
+    --carbon-black: #0B0D0F;
+    --button-text: #DDE2E6;
+    --inverse-text: var(--heading);
+    --inverse-muted: var(--text-secondary);
+    --dark-2: #1B2B2D;
+    --light: var(--bg-primary);
+    --white: var(--text-primary);
+    --text: var(--text-primary);
+    --muted: var(--text-secondary);
+    --border: var(--border-color);
     --shadow: 0 15px 40px rgba(0, 0, 0, .3);
 }
 
@@ -175,7 +204,7 @@ a {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(12, 12, 13, .96);
+    background: var(--carbon-black);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,.08);
 }
@@ -189,7 +218,7 @@ a {
 }
 
 .logo {
-    color: var(--white);
+    color: var(--accent-gold);
     font-size: 24px;
     font-weight: 900;
     letter-spacing: 2px;
@@ -207,7 +236,7 @@ a {
 .nav-link {
     position: relative;
 
-    color: #cfcfcf;
+    color: var(--titanium);
     font-size: 14px;
     font-weight: 600;
 
@@ -218,7 +247,7 @@ a {
 
 .nav-link:hover,
 .nav-link.active {
-    color: white;
+    color: var(--accent-hover);
 }
 
 .nav-link.active::after {
@@ -245,7 +274,7 @@ a {
     height: 38px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255,255,255,.16);
+    border: 1px solid var(--titanium);
     border-radius: 50%;
     background: rgba(255,255,255,.06);
     color: white;
@@ -399,11 +428,13 @@ a {
 
 .btn-primary {
     background: var(--primary);
-    color: white;
+    color: var(--button-text);
+    border: 1px solid var(--accent-gold);
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
     transform: translateY(-2px);
 }
 
@@ -414,8 +445,8 @@ a {
 }
 
 .btn-outline:hover {
-    background: white;
-    color: var(--dark);
+    background: var(--iridescent-mint);
+    color: var(--carbon-black);
 }
 
 .full-width {
@@ -439,7 +470,7 @@ a {
 }
 
 .hero-stats span {
-    color: #aaa;
+    color: var(--iridescent-mint);
     font-size: 12px;
 }
 
@@ -449,7 +480,7 @@ a {
 ============================== */
 
 .feature-strip {
-    background: white;
+    background: var(--bg-card);
     border-bottom: 1px solid var(--border);
 }
 
@@ -506,6 +537,7 @@ a {
 .center-heading h2 {
     font-size: clamp(32px, 5vw, 52px);
     line-height: 1;
+    color: var(--heading);
 }
 
 .section-heading h2 span,
@@ -544,7 +576,7 @@ a {
 
     overflow: hidden;
 
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
@@ -580,7 +612,7 @@ a {
     padding: 6px 10px;
 
     background: var(--primary);
-    color: white;
+    color: var(--button-text);
 
     border-radius: 4px;
 
@@ -601,18 +633,13 @@ a {
     border: 0;
     border-radius: 50%;
 
-    background: white;
+    background: var(--bg-card);
 
     font-size: 18px;
 
     box-shadow: 0 5px 15px rgba(0,0,0,.1);
 
     transition: .25s;
-}
-
-.view-all-button {
-    cursor: pointer;
-    font: inherit;
 }
 
 body.dark-mode .feature-strip,
@@ -623,7 +650,7 @@ body.dark-mode .contact-form,
 body.dark-mode .search-box,
 body.dark-mode .catalog-toolbar select,
 body.dark-mode .newsletter {
-    background: #191d24;
+    background: var(--bg-card);
     color: var(--text);
     border-color: var(--border);
 }
@@ -632,7 +659,11 @@ body.dark-mode .about-section,
 body.dark-mode .contact-section,
 body.dark-mode .section,
 body.dark-mode .catalog-section {
-    background: #101216;
+    background: var(--bg-primary);
+}
+
+body.dark-mode .testimonial-section {
+    background: var(--bg-secondary);
 }
 
 body.dark-mode .bike-description,
@@ -649,15 +680,26 @@ body.dark-mode .catalog-toolbar select,
 body.dark-mode .contact-form input,
 body.dark-mode .contact-form textarea,
 body.dark-mode .newsletter-form input {
-    background: #11141a;
+    background: var(--bg-secondary);
     color: var(--text);
     border-color: var(--border);
 }
 
 body.dark-mode .cart-drawer,
 body.dark-mode .modal-box {
-    background: #191d24;
+    background: var(--bg-card);
     color: var(--text);
+}
+
+body.dark-mode .header {
+    background: var(--carbon-black);
+    border-bottom-color: var(--border-color);
+}
+
+body.dark-mode .footer {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-top-color: var(--border-color);
 }
 
 body.dark-mode .close-button,
@@ -667,14 +709,14 @@ body.dark-mode .modal-close {
 
 body.dark-mode .wishlist,
 body.dark-mode .qty-btn {
-    background: #11141a;
+    background: var(--bg-secondary);
     color: var(--text);
     border-color: var(--border);
 }
 
 body.dark-mode .bike-specs span {
-    background: #2a303a;
-    color: #f1f3f5;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 body.dark-mode .cart-header,
@@ -723,7 +765,7 @@ body.dark-mode .cart-item {
 .bike-specs span {
     padding: 5px 8px;
 
-    background: #f2f2f2;
+    background: var(--bg-primary);
     border-radius: 4px;
 
     font-size: 10px;
@@ -757,7 +799,7 @@ body.dark-mode .cart-item {
     padding: 9px 12px;
 
     background: var(--dark);
-    color: white;
+    color: var(--inverse-text);
 
     font-size: 11px;
     font-weight: 700;
@@ -775,7 +817,7 @@ body.dark-mode .cart-item {
 .about-section {
     padding: 110px 0;
     background: var(--dark);
-    color: white;
+    color: var(--inverse-text);
 }
 
 .about-grid {
@@ -804,7 +846,7 @@ body.dark-mode .cart-item {
     padding: 25px 30px;
 
     background: var(--primary);
-    color: white;
+    color: var(--button-text);
 
     border-radius: 8px;
 
@@ -834,7 +876,7 @@ body.dark-mode .cart-item {
 }
 
 .about-content > p:not(.eyebrow) {
-    color: #aaa;
+    color: var(--inverse-muted);
     margin-bottom: 18px;
 }
 
@@ -844,7 +886,7 @@ body.dark-mode .cart-item {
 
     margin: 25px 0 30px;
 
-    color: #ddd;
+    color: var(--inverse-muted);
     font-size: 14px;
 }
 
@@ -860,7 +902,7 @@ body.dark-mode .cart-item {
 }
 
 .service-card {
-    background: white;
+    background: var(--bg-card);
     padding: 35px;
 
     border: 1px solid var(--border);
@@ -903,7 +945,7 @@ body.dark-mode .cart-item {
 
 .testimonial-section {
     padding: 100px 0;
-    background: #eeeeec;
+    background: var(--bg-secondary);
 }
 
 .testimonial-section .center-heading h2 {
@@ -918,18 +960,40 @@ body.dark-mode .cart-item {
 
 .testimonial {
     padding: 30px;
-    background: white;
+    background: var(--bg-card);
     border-radius: var(--radius);
 }
 
+.rider-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rider-profile img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.rider-profile strong {
+    display: block;
+}
+
+.rider-profile span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
 .stars {
-    color: #f6a800;
+    color: var(--accent-gold);
     letter-spacing: 3px;
     margin-bottom: 15px;
 }
 
 .testimonial p {
-    color: #555;
+    color: var(--text-secondary);
     font-size: 14px;
     margin-bottom: 25px;
 }
@@ -990,7 +1054,7 @@ body.dark-mode .cart-item {
 }
 
 .contact-form {
-    background: white;
+    background: var(--bg-card);
     padding: 35px;
 
     border: 1px solid var(--border);
@@ -1028,14 +1092,14 @@ body.dark-mode .cart-item {
 .newsletter-form input {
     width: 100%;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 6px;
 
     padding: 13px 14px;
 
     outline: none;
 
-    background: #fafafa;
+    background: var(--bg-primary);
 
     transition: .2s;
 }
@@ -1044,7 +1108,7 @@ body.dark-mode .cart-item {
 .form-group textarea:focus,
 .newsletter-form input:focus {
     border-color: var(--primary);
-    background: white;
+    background: var(--bg-card);
 }
 
 
@@ -1054,7 +1118,7 @@ body.dark-mode .cart-item {
 
 .newsletter {
     background: var(--primary);
-    color: white;
+    color: var(--button-text);
 
     padding: 60px 0;
 }
@@ -1068,7 +1132,7 @@ body.dark-mode .cart-item {
 }
 
 .newsletter .eyebrow {
-    color: white;
+    color: var(--button-text);
 }
 
 .newsletter h2 {
@@ -1087,7 +1151,7 @@ body.dark-mode .cart-item {
 .newsletter-form input {
     border: 0;
     border-radius: 5px 0 0 5px;
-    background: white;
+    background: var(--bg-card);
 }
 
 .newsletter-form .btn {
@@ -1102,7 +1166,7 @@ body.dark-mode .cart-item {
 
 .footer {
     background: var(--dark);
-    color: white;
+    color: var(--heading);
 }
 
 .footer-grid {
@@ -1114,7 +1178,7 @@ body.dark-mode .cart-item {
 }
 
 .footer-grid > div > p {
-    color: #888;
+    color: var(--inverse-muted);
     font-size: 13px;
     margin-top: 15px;
 }
@@ -1126,7 +1190,7 @@ body.dark-mode .cart-item {
 .footer-grid a:not(.logo) {
     display: block;
 
-    color: #888;
+    color: var(--inverse-muted);
     font-size: 13px;
 
     margin-bottom: 10px;
@@ -1135,7 +1199,7 @@ body.dark-mode .cart-item {
 }
 
 .footer-grid a:hover {
-    color: white;
+    color: var(--iridescent-mint);
 }
 
 .social-links {
@@ -1151,19 +1215,19 @@ body.dark-mode .cart-item {
     display: grid !important;
     place-items: center;
 
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     border-radius: 50%;
 
-    color: white !important;
+    color: var(--heading) !important;
 }
 
 .footer-bottom {
-    border-top: 1px solid #222;
+    border-top: 1px solid var(--border);
     padding: 20px 0;
 }
 
 .footer-bottom p {
-    color: #666;
+    color: var(--inverse-muted);
     font-size: 12px;
 }
 
@@ -1173,8 +1237,8 @@ body.dark-mode .cart-item {
 ============================== */
 
 .catalog-hero {
-    background: rgba(12, 12, 13, .72);
-    color: white;
+    background: var(--carbon-black);
+    color: var(--inverse-text);
 
     padding: 110px 0;
 }
@@ -1191,12 +1255,12 @@ body.dark-mode .cart-item {
 }
 
 .catalog-hero p {
-    color: #999;
+    color: var(--inverse-muted);
 }
 
 .catalog-section {
     padding: 70px 0;
-    background: rgba(5, 7, 13, .72);
+    background: var(--bg-primary);
 }
 
 .catalog-toolbar {
@@ -1211,7 +1275,7 @@ body.dark-mode .cart-item {
     display: flex;
     align-items: center;
 
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
 
@@ -1235,7 +1299,7 @@ body.dark-mode .cart-item {
     border: 1px solid var(--border);
     border-radius: 6px;
 
-    background: white;
+    background: var(--bg-card);
 
     padding: 0 12px;
 
@@ -1246,6 +1310,15 @@ body.dark-mode .cart-item {
     margin-bottom: 20px;
     color: var(--muted);
     font-size: 13px;
+}
+
+.catalog-more {
+    display: flex;
+    margin: 32px auto 0;
+}
+
+.catalog-more[hidden] {
+    display: none;
 }
 
 .no-results {
@@ -1300,7 +1373,7 @@ body.dark-mode .cart-item {
 
     height: 100vh;
 
-    background: white;
+    background: var(--bg-card);
 
     z-index: 1999;
 
@@ -1389,7 +1462,7 @@ body.dark-mode .cart-item {
     height: 25px;
 
     border: 1px solid var(--border);
-    background: white;
+    background: var(--bg-card);
     border-radius: 4px;
 }
 
@@ -1446,7 +1519,7 @@ body.dark-mode .cart-item {
 
     overflow-y: auto;
 
-    background: white;
+    background: var(--bg-card);
 
     border-radius: 12px;
 
